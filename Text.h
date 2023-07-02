@@ -21,7 +21,7 @@ public:
   void add(String text);
   void append(String text);
   char pop();
-  void show();
+  void refresh();
 };
 
 #endif

@@ -15,20 +15,22 @@ Text::Text(TFT_eSPI *display, uint8_t lines, uint8_t char_per_lines, uint8_t x, 
 
 void Text::add(String text){
   this->text = text;
+  this->refresh();
 }
 
 void Text::append(String text){
   this->text += text;
+  this->refresh();
 }
 
 char Text::pop(){
   char c = this->text[this->text.length() - 1];
   this->text.remove(this->text.length() - 1);
-  this->show();
+  this->refresh();
   return c;
 }
 
-void Text::show(){
+void Text::refresh(){
   uint32_t index = 0;
   uint8_t line = this->y;
   String text = this->text;
