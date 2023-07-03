@@ -4,8 +4,8 @@
 #include <TFT_eSPI.h> // Hardware-specific library
 #include <SPI.h>
 
-Text::Text(TFT_eSPI *display, uint8_t lines, uint8_t char_per_lines, uint8_t x, uint8_t y, uint8_t font_size){
-  this->lines = lines;
+Text::Text(TFT_eSPI *display, uint8_t nlines, uint8_t char_per_lines, uint8_t x, uint8_t y, uint8_t font_size){
+  this->nlines = nlines;
   this->char_per_lines = char_per_lines;
   this->x = x;
   this->y = y;
@@ -25,11 +25,9 @@ void Text::append(String text){
 
 char Text::pop(){
   char c = this->text[this->text.length() - 1];
-  this->disp->setTextColor(TFT_BLACK);
+  this->text[this->text.length() - 1] = ' ';
   this->refresh();
-  this->disp->setTextColor(TFT_WHITE);
   this->text.remove(this->text.length() - 1);
-  this->refresh();
   return c;
 }
 

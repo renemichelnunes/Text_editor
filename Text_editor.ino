@@ -55,7 +55,7 @@ void setup()
   tft.setBacklightPin(D4);
   tft.setBacklight(10);
   tft.setRotation(1);
-  tft.setTextColor(TFT_WHITE);
+  tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.fillScreen(TFT_BLACK);
   /*
   tft.drawString("ooooooooooooooooooooooooooooo oooooooooooooooooooooooooooooa", 0, 0, 2);
@@ -74,7 +74,7 @@ void setup()
   delay(1000);
   char c = t.pop();
   tft.drawChar(c, 0, 300, 2);
-  for (int i = 0; i < 20; i++){
+  for (int i = 0; i < 2; i++){
     t.pop();
     delay(100);
   }
