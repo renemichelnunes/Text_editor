@@ -25,6 +25,9 @@ void Text::append(String text){
 
 char Text::pop(){
   char c = this->text[this->text.length() - 1];
+  this->disp->setTextColor(TFT_BLACK);
+  this->refresh();
+  this->disp->setTextColor(TFT_WHITE);
   this->text.remove(this->text.length() - 1);
   this->refresh();
   return c;
@@ -39,7 +42,7 @@ void Text::refresh(){
       this->disp->drawString(text.substring(index, index + this->char_per_lines), x, line, this->font_size);
     else
       this->disp->drawString(text.substring(index, index + this->char_per_lines), x, line);
-    line += 12;
+    line += 10;
     index += this->char_per_lines;
   }
 }
