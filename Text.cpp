@@ -11,6 +11,12 @@ Text::Text(TFT_eSPI *display, uint8_t nlines, uint8_t char_per_lines, uint8_t x,
   this->y = y;
   this->font_size = font_size;
   this->disp = display;
+
+  this->drawRect();
+}
+
+void Text::drawRect(){
+  this->disp->drawRect(x - 5, y - 5, this->char_per_lines * 6 + 10, abs((this->nlines - 2)) * 12 + 5, TFT_WHITE);
 }
 
 void Text::add(String text){

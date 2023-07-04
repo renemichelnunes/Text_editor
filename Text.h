@@ -22,6 +22,7 @@ public:
   void append(String text);
   char pop();
   void refresh();
+  void drawRect();
 };
 
 #endif

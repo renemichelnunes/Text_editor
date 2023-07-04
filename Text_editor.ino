@@ -67,17 +67,13 @@ void setup()
   tft.drawString(a, 0, 36, 2);
   delay(2000);
   */
-  Text t = Text(&tft, 1, 60, 0, 30, 0);
+  Text t = Text(&tft, 14, 60, 10, 30, 0);
   t.append("A class is like a template that lets you reuse code without having to type it over and over. For example, say you needed to make 20 documents that all had the same font, header, and margins. It would be too time consuming to change the formatting of all 20 documents individually. Instead you could make a template document with the right font, header, and margins, then add the text and save it as a separate file.");
   delay(1000);
   t.append("Classes are like that template document. Classes are templates of code for what are called “objects”. Think of a class as the template document, and the object as the individual document. Objects let you access the functions and variables inside of a class. An object is sometimes called an “instance” of a class.");
   delay(1000);
-  char c = t.pop();
-  tft.drawChar(c, 0, 300, 2);
-  for (int i = 0; i < 2; i++){
-    t.pop();
-    delay(100);
-  }
+  t.append("/home/rene/.arduino15/packages/rp2040/tools/pqt-python3/1.0.1-base-3a57aed/python3");
+
   //randChar();
   tft.setPivot(200, 200);
   needle.createSprite(15, 5);
