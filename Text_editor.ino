@@ -27,6 +27,7 @@
 #include "Text.h"
  
 TFT_eSPI tft = TFT_eSPI();                   // Invoke custom library with default width and height
+Text t;
 
 void randChar(){
   uint16_t x = 0, y = 0, color = 0;
@@ -49,7 +50,6 @@ TFT_eSprite back = TFT_eSprite(&tft);
 void setup()
 {
   randomSeed(analogRead(0));
-  Serial.begin(38400);
 // Setup the LCD
   tft.init();
   tft.setBacklightPin(D4);
@@ -67,7 +67,7 @@ void setup()
   tft.drawString(a, 0, 36, 2);
   delay(2000);
   */
-  Text t = Text(&tft, 14, 60, 10, 30, 0);
+  t = Text(&tft, 20, 70, 10, 30, 0); // Text box
   t.append("A class is like a template that lets you reuse code without having to type it over and over. For example, say you needed to make 20 documents that all had the same font, header, and margins. It would be too time consuming to change the formatting of all 20 documents individually. Instead you could make a template document with the right font, header, and margins, then add the text and save it as a separate file.");
   delay(1000);
   t.append("Classes are like that template document. Classes are templates of code for what are called “objects”. Think of a class as the template document, and the object as the individual document. Objects let you access the functions and variables inside of a class. An object is sometimes called an “instance” of a class.");
@@ -78,11 +78,22 @@ void setup()
   tft.setPivot(200, 200);
   needle.createSprite(15, 5);
   back.createSprite(20, 20);
+  Serial.begin(9600);
+
 }
 
 uint16_t angle = 0;
 void loop()
 {
+  
+  if(Serial.available()){
+    char c = Serial.read();
+    Serial.println(int(c));
+    if(int(c) == 127)
+      t.pop();
+    else
+      t.append(String(c));
+  }
   back.fillSprite(TFT_BLACK);
   needle.fillSprite(TFT_ORANGE);
   needle.pushRotated(&back, angle);
@@ -90,5 +101,5 @@ void loop()
   angle++;
   if(angle == 360)
     angle = 0;
-  delay(10);
+  delay(5);
 }

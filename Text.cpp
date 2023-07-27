@@ -15,6 +15,10 @@ Text::Text(TFT_eSPI *display, uint8_t nlines, uint8_t char_per_lines, uint8_t x,
   this->drawRect();
 }
 
+Text::Text(){
+
+}
+
 void Text::drawRect(){
   this->disp->drawRect(x - 5, y - 5, this->char_per_lines * 6 + 10, abs((this->nlines - 2)) * 12 + 5, TFT_WHITE);
 }
@@ -49,4 +53,9 @@ void Text::refresh(){
     line += 10;
     index += this->char_per_lines;
   }
+}
+
+void Text::clear(){
+  this->text = "";
+  this->refresh();
 }

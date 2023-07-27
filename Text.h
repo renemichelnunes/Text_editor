@@ -18,9 +18,11 @@ private:
 
 public:
   Text(TFT_eSPI *display, uint8_t nlines, uint8_t char_per_lines, uint8_t x, uint8_t y, uint8_t font_size);
+  Text();
   void add(String text);
   void append(String text);
   char pop();
+  void clear();
   void refresh();
   void drawRect();
 };
