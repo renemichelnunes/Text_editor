@@ -20,7 +20,7 @@ Text::Text(){
 }
 
 void Text::drawRect(){
-  this->disp->drawRect(x - 5, y - 5, this->char_per_lines * 6 + 10, abs((this->nlines - 2)) * 12 + 5, TFT_WHITE);
+  this->disp->drawRect(this->x - 5, this->y - 5, this->char_per_lines * 6 + 10, abs((this->nlines - 2)) * 12 + 5, TFT_WHITE);
 }
 
 void Text::add(String text){
@@ -45,17 +45,29 @@ void Text::refresh(){
   uint32_t index = 0;
   uint8_t line = this->y;
   String text = this->text;
+  String s, s2;
+  uint32_t enter = 0;
+
   while (index < this->text.length()) {
-    if(this->font_size > 0)
-      this->disp->drawString(text.substring(index, index + this->char_per_lines), x, line, this->font_size);
-    else
-      this->disp->drawString(text.substring(index, index + this->char_per_lines), x, line);
+    s = text.substring(index, index + this->char_per_lines);
+    enter = s.indexOf('\n');
+    if(enter != -1){
+      s = text.substring(index, index + enter);
+      this->disp->drawString(s, this->x, line);
+      //Serial.println(s);
+      index += enter + 1;
+      enter = 0;
+    }
+    else{
+      this->disp->drawString(s, this->x, line);
+      //Serial.println(s);
+      index += this->char_per_lines;
+    }
     line += 10;
-    index += this->char_per_lines;
   }
 }
 
 void Text::clear(){
   this->text = "";
-  this->refresh();
+  this->disp->fillRect(this->x - 4, this->y - 4, this->char_per_lines * 6 + 4, abs((this->nlines - 2)) * 12 + 2, TFT_BLACK);
 }

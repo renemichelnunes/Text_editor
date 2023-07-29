@@ -68,11 +68,7 @@ void setup()
   delay(2000);
   */
   t = Text(&tft, 20, 70, 10, 30, 0); // Text box
-  t.append("A class is like a template that lets you reuse code without having to type it over and over. For example, say you needed to make 20 documents that all had the same font, header, and margins. It would be too time consuming to change the formatting of all 20 documents individually. Instead you could make a template document with the right font, header, and margins, then add the text and save it as a separate file.");
-  delay(1000);
-  t.append("Classes are like that template document. Classes are templates of code for what are called “objects”. Think of a class as the template document, and the object as the individual document. Objects let you access the functions and variables inside of a class. An object is sometimes called an “instance” of a class.");
-  delay(1000);
-  t.append("/home/rene/.arduino15/packages/rp2040/tools/pqt-python3/1.0.1-base-3a57aed/python3");
+  //t.append("A class is like a template that lets you reuse code without having to type it over and over. \nFor example, say you needed to make 20 documents that all had the same font, header, and margins. \nIt would be too time consuming to change the formatting of all 20 documents individually. \nInstead you could make a template document with the right font, header, and margins, then add the text and save it as a separate file.");
 
   //randChar();
   tft.setPivot(200, 200);
@@ -82,18 +78,26 @@ void setup()
 
 }
 
-uint16_t angle = 0;
-void loop()
-{
-  
+void serialKeyboard(){
   if(Serial.available()){
     char c = Serial.read();
     Serial.println(int(c));
     if(int(c) == 127)
       t.pop();
+    else if(int(c) == 13)
+      t.append(String('\n'));
+    else if(int(c) == 96)
+      t.clear();
     else
       t.append(String(c));
   }
+}
+
+uint16_t angle = 0;
+void loop()
+{
+  
+  serialKeyboard();
   back.fillSprite(TFT_BLACK);
   needle.fillSprite(TFT_ORANGE);
   needle.pushRotated(&back, angle);
