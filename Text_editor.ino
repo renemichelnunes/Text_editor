@@ -1,11 +1,4 @@
-// Demo based on:
-// UTFT_Demo by Henning Karlsen
-// web: http://www.henningkarlsen.com/electronics
 /*
-
- The delay between tests is set to 0. The tests run so fast you will need to
- change the WAIT value below to see what is being plotted!
- 
  This sketch uses the GLCD and font 2 only.
 
  Make sure all the required fonts are loaded by editing the
@@ -16,11 +9,6 @@
   ######            TO SELECT THE FONTS YOU USE, SEE ABOVE           ######
   #########################################################################
  */
-
-// Delay between demo pages
-#define WAIT 0 // Delay between tests, set to 0 to demo speed, 2000 to see what it does!
-
-#define CENTRE 240
  
 #include <TFT_eSPI.h> // Hardware-specific library
 #include <SPI.h>
@@ -57,16 +45,7 @@ void setup()
   tft.setRotation(1);
   tft.setTextColor(TFT_WHITE, TFT_BLACK);
   tft.fillScreen(TFT_BLACK);
-  /*
-  tft.drawString("ooooooooooooooooooooooooooooo oooooooooooooooooooooooooooooa", 0, 0, 2);
-  tft.drawString("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO OOOOOOOOOOOOOOOOOOOOOA", 0, 12, 2);
-  String a = "test";
-  a += 'e';
-  tft.drawString(a, 0, 24, 2);
-  a.remove(a.length()-1);
-  tft.drawString(a, 0, 36, 2);
-  delay(2000);
-  */
+
   t = Text(&tft, 20, 70, 10, 30, 0); // Text box
   //t.append("A class is like a template that lets you reuse code without having to type it over and over. \nFor example, say you needed to make 20 documents that all had the same font, header, and margins. \nIt would be too time consuming to change the formatting of all 20 documents individually. \nInstead you could make a template document with the right font, header, and margins, then add the text and save it as a separate file.");
 
@@ -75,21 +54,29 @@ void setup()
   needle.createSprite(15, 5);
   back.createSprite(20, 20);
   Serial.begin(9600);
+}
 
+void teste(){
+  for(int i = 0; i < 20; i++)
+    t.append(String(i) + '\n');
 }
 
 void serialKeyboard(){
+  String s = "";
   if(Serial.available()){
     char c = Serial.read();
-    Serial.println(int(c));
+    //Serial.println(int(c));
     if(int(c) == 127)
       t.pop();
     else if(int(c) == 13)
-      t.append(String('\n'));
-    else if(int(c) == 96)
+      s = '\n';
+    else if(int(c) == 96){
       t.clear();
+      teste();
+    }
     else
-      t.append(String(c));
+      s = String(c);
+    t.append(s);
   }
 }
 

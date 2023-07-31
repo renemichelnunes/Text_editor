@@ -24,7 +24,10 @@ public:
   char pop();
   void clear();
   void refresh();
-  void drawRect();
+  void drawTextboxFrame();
+  void Arrows(bool up, bool down);
+  void scrollUp();
+  void scrollDown();
 };
 
 #endif

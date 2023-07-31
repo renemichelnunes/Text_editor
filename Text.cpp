@@ -12,15 +12,61 @@ Text::Text(TFT_eSPI *display, uint8_t nlines, uint8_t char_per_lines, uint8_t x,
   this->font_size = font_size;
   this->disp = display;
 
-  this->drawRect();
+  this->drawTextboxFrame();
 }
 
 Text::Text(){
 
 }
 
-void Text::drawRect(){
+void Text::Arrows(bool up, bool down){
+  this->disp->fillTriangle(this->char_per_lines * 6 + 7 + this->x, 
+                          this->y + 18, 
+                          this->char_per_lines * 6 + 23 + this->x, 
+                          this->y + 18, 
+                          ((this->char_per_lines * 6 + 7 + this->x) + (this->char_per_lines * 6 + 23 + this->x)) / 2, 
+                          this->y + 2, TFT_BLACK);
+  this->disp->fillTriangle(this->char_per_lines * 6 + 7 + this->x, 
+                          this->y + 20, 
+                          this->char_per_lines * 6 + 23 + this->x, 
+                          this->y + 20, 
+                          ((this->char_per_lines * 6 + 7 + this->x) + (this->char_per_lines * 6 + 23 + this->x)) / 2, 
+                          this->y + 35, TFT_BLACK);
+  // Hollow up arrow
+  this->disp->drawTriangle(this->char_per_lines * 6 + 7 + this->x, 
+                          this->y + 18, 
+                          this->char_per_lines * 6 + 23 + this->x, 
+                          this->y + 18, 
+                          ((this->char_per_lines * 6 + 7 + this->x) + (this->char_per_lines * 6 + 23 + this->x)) / 2, 
+                          this->y + 2, TFT_WHITE);
+  // Hollow down arrow
+  this->disp->drawTriangle(this->char_per_lines * 6 + 7 + this->x, 
+                          this->y + 20, 
+                          this->char_per_lines * 6 + 23 + this->x, 
+                          this->y + 20, 
+                          ((this->char_per_lines * 6 + 7 + this->x) + (this->char_per_lines * 6 + 23 + this->x)) / 2, 
+                          this->y + 35, TFT_WHITE);
+  
+  if(up)
+    this->disp->fillTriangle(this->char_per_lines * 6 + 7 + this->x, 
+                          this->y + 18, 
+                          this->char_per_lines * 6 + 23 + this->x, 
+                          this->y + 18, 
+                          ((this->char_per_lines * 6 + 7 + this->x) + (this->char_per_lines * 6 + 23 + this->x)) / 2, 
+                          this->y + 2, TFT_WHITE);
+  if(down)
+    this->disp->fillTriangle(this->char_per_lines * 6 + 7 + this->x, 
+                          this->y + 20, 
+                          this->char_per_lines * 6 + 23 + this->x, 
+                          this->y + 20, 
+                          ((this->char_per_lines * 6 + 7 + this->x) + (this->char_per_lines * 6 + 23 + this->x)) / 2, 
+                          this->y + 35, TFT_WHITE);
+}
+
+void Text::drawTextboxFrame(){
+  // Frame
   this->disp->drawRect(this->x - 5, this->y - 5, this->char_per_lines * 6 + 10, abs((this->nlines - 2)) * 12 + 5, TFT_WHITE);
+  this->Arrows(false, false);
 }
 
 void Text::add(String text){
@@ -47,6 +93,8 @@ void Text::refresh(){
   String text = this->text;
   String s, s2;
   uint32_t enter = 0;
+  uint32_t lines = 0;
+  uint16_t pages = 0;
 
   while (index < this->text.length()) {
     s = text.substring(index, index + this->char_per_lines);
@@ -63,7 +111,10 @@ void Text::refresh(){
       //Serial.println(s);
       index += this->char_per_lines;
     }
+    pages = lines / (nlines - 1);
+    Serial.println("linha " + String(lines) + " pagina " + String(pages));
     line += 10;
+    lines++;
   }
 }
 
